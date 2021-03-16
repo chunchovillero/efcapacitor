@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-toolbar style="padding-top: 10px; padding-bottom: 10px">
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="false" class="btn-menu"></ion-menu-button>
+              
+          <ion-avatar *ngIf="this.usuario.id === chat.creador" style="width: 30px; height: 30px;">
+              <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante" src="{{user.avatar}}"></ion-img>
+          </ion-avatar>
+
+          <ion-avatar *ngIf="this.usuario.id === chat.participante" style="width: 30px; height: 30px;">
+              <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador" src="{{user.avatar}}"></ion-img>
+          </ion-avatar>
+      </ion-buttons>
+      <div *ngIf="this.usuario.id === chat.creador">
+          <ion-title *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante">{{user.name}}</ion-title>
+      </div>
+
+      <div *ngIf="this.usuario.id === chat.participante">
+          <ion-title *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador">{{user.name}}</ion-title>
+      </div>
+
+      <ion-buttons routerLink ="/chats" slot="end">
+        <ion-icon slot="end" name="arrow-back-outline"></ion-icon>
+      </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="chat.tipo === 'Cotizacion'" [routerLink]="['/cotizacion', chat.idcotizacion]">
+    <ion-title style="font-size: 11px; font-weight: bold; text-align: center">Cotización</ion-title>
+      <ion-text>
+          <p class="ion-padding"  *ngIf="chat.tipo === 'Cotizacion'">{{ cotizacion.descripcion }}</p>
+      </ion-text>
+  </ion-toolbar> 
+
+  <ion-button *ngIf="chat.tipo === 'Cotizacion' && chat.participante === usuario.id && cotizacion.estado === 'abierta' " color="success" (click)="elegir()" expand="block">YO TE ELIJO !!!</ion-button>
+
+      <ion-toolbar class="ion-padding" *ngIf="cotizacion.estado === 'cerrada' && cotizacion.elegido === chat.creador" color="success">
+          <ion-text style="font-size: 11px; font-weight: bold; text-align: center" *ngIf="usuario.tipocuenta === 'Usuario'">Esta cotización esta cerrada, este es el taller que elegiste!</ion-text>
+          <ion-text style="font-size: 11px; font-weight: bold; text-align: center" *ngIf="usuario.tipocuenta === 'Taller'">Esta cotización esta cerrada y el usuario te elgio a ti</ion-text>
+      </ion-toolbar>
+
+      <ion-toolbar class="ion-padding" *ngIf="cotizacion.estado === 'cerrada' && cotizacion.elegido != chat.creador" color="danger">
+              <ion-text style="font-size: 11px; font-weight: bold; text-align: center" *ngIf="usuario.tipocuenta === 'Usuario'">Esta cotización esta cerrada, Escogiste otro taller!</ion-text>
+              <ion-text style="font-size: 11px; font-weight: bold; text-align: center" *ngIf="usuario.tipocuenta === 'Taller'">Esta cotización esta cerrada y el usuario a elegido a otro taller</ion-text>
+      </ion-toolbar>
+      
+</ion-header>
+
+<ion-content *ngIf="foto === 0">
+      
+    
+      <div class="messageArea" #myContent>
+        <div *ngFor="let message of mensajes">
+            <div class="chat" *ngIf="message !== undefined">
+              <span [class]="message.mensajero === usuario.id ? 'message you' : 'message me'">
+                  <div *ngIf="message.tipo === 'text'">
+                    {{message.mensaje}} <p class="hora"> {{hace(message.date.toDate() | date: "MMddyyyy HHmmss")}}</p>
+                  </div>
+
+                  <div *ngIf="message.tipo === 'image'">
+                    {{message.mensaje}} imagen <p class="hora"> {{hace(message.date.toDate() | date: "MMddyyyy HHmmss")}}</p>
+                    <div>
+                        <img (click)="zoom(message.imagen[0].url)" *ngIf="message.imagen[0].tipo == 'image/jpeg'" [src]="message.imagen[0].url">
+                        <video *ngIf="message.imagen[0].tipo == 'video/mp4'" preload="metadata" webkit-playsinline playsinline src="{{message.imagen[0].url}}#t=0.1" controls height="400">
+                        The “video” tag is not supported by your browser. Click [here] to download the video file.
+                        </video>
+                    </div>
+                    
+                  </div>
+                
+              </span>
+            </div>
+        </div>
+    </div>
+</ion-content>
+
+<ion-content *ngIf="foto === 1">
+    <div class="pin" *ngFor="let item of media; let i=index">
+        <img *ngIf="item.tipo == 'image/jpeg'" [src]="item.base64">
+        <video *ngIf="item.tipo == 'video/mp4'" autoplay controls [src]="item.base64" controls>
+          The “video” tag is not supported by your browser. Click [here] to download the video file.
+        </video>
+    </div>
+
+</ion-content>
+
+<ion-footer>
+    <div *ngIf="chat.tipo === 'Normal'">
+        <div class="chatBoxArea" *ngIf="foto === 0">
+            <ion-textarea [(ngModel)]="message" rows="1" class="chatInput" (keyup)="istiping()" type="text" placeholder="Escribe un mensaje">
+            </ion-textarea>
+            
+            <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                <ion-fab-button  size="small" *ngIf="message === ''">
+                    <ion-icon (click)="presentActionSheet()"  color="white" name="camera-outline"></ion-icon>
+                </ion-fab-button>
+
+                <ion-fab-button  size="small" *ngIf="message !== ''">
+                    <ion-icon (click)="enviarMensaje()"  color="white" name="send"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+        </div>
+
+        <div class="chatBoxArea" *ngIf="foto === 1">
+            <ion-textarea [(ngModel)]="message" rows="1" class="chatInput" (keyup)="istiping()" type="text" placeholder="Escribe un mensaje">
+            </ion-textarea>
+            
+            <ion-fab  vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                <ion-fab-button  size="small">
+                    <ion-icon (click)="enviarMensajeImagen()"  color="white" name="send"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button  size="small" >
+                    <ion-icon (click)="limpiar()"   color="white" name="trash"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+
+            <ion-fab (click)="limpiar()" vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                
+            </ion-fab>
+        </div>
+
+    </div>
+    <div *ngIf="chat.tipo === 'Cotizacion'">
+
+        <div class="chatBoxArea" *ngIf="foto === 1">
+            <ion-textarea [(ngModel)]="message" rows="1" class="chatInput" (keyup)="istiping()" type="text" placeholder="Escribe un mensaje">
+            </ion-textarea>
+            
+            <ion-fab  vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                <ion-fab-button  size="small">
+                    <ion-icon (click)="enviarMensajeImagen()"  color="white" name="send"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-button  size="small" >
+                    <ion-icon (click)="limpiar()"   color="white" name="trash"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+
+            <ion-fab (click)="limpiar()" vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                
+            </ion-fab>
+        </div>
+        
+        <div *ngIf="foto === 0">
+            <div *ngIf="cotizacion.estado === 'abierta' " class="chatBoxArea">
+                <ion-textarea [(ngModel)]="message" rows="1" class="chatInput" (keyup)="istiping()" type="text" placeholder="Escribe un mensaje">
+                </ion-textarea>
+                <ion-fab  vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                    <ion-fab-button  size="small" *ngIf="message === ''">
+                        <ion-icon (click)="presentActionSheet()" color="white" name="camera-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button  size="small" *ngIf="message !== ''">
+                        <ion-icon (click)="enviarMensaje()"  color="white" name="send"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        
+            <div *ngIf="cotizacion.estado === 'cerrada' && cotizacion.elegido === chat.creador"   class="chatBoxArea">
+                <ion-textarea [(ngModel)]="message" rows="1" class="chatInput" (keyup)="istiping()"  type="text" placeholder="Escribe un mensaje">
+                </ion-textarea>
+                <ion-fab (click)="enviarMensaje()" vertical="bottom" horizontal="end" slot="fixed" class="micFab">
+                    <ion-fab-button  size="small" *ngIf="message === ''">
+                        <ion-icon (click)="presentActionSheet()" color="white" name="camera-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-button  size="small" *ngIf="message !== ''">
+                        <ion-icon (click)="enviarMensaje()"  color="white" name="send"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+            </div>
+        </div>
+       
+    </div>
+    
+</ion-footer>

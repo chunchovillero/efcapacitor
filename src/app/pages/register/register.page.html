@@ -1,0 +1,100 @@
+<ion-content class="ion-no-padding"  color="primary2">
+  <div class="main">
+      <form class="form" [formGroup]="validations_form"  (ngSubmit)="signup(validations_form.value)">
+    <ion-card class="card ion-no-margin" color="primary2">
+        <ion-card-content color="primary2">
+            <ion-row class="row">
+                <div class="fire-logo">
+                    <img src="../../../assets/logo.png" class="img-logo">
+                    <ion-text><h2 class="ion-no-margin ion-text-center ion-margin-vertical">Registrar Usuario</h2></ion-text>
+                  </div>
+            </ion-row>
+           
+            <ion-row>
+                <ion-col>
+                  <ion-input type="text" placeholder="Nombre" formControlName="nombre"  class="input ion-padding-horizontal"></ion-input>
+                  <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.nombre">
+                        <div class="error-message" *ngIf="validations_form.get('nombre').hasError(validation.type) && (validations_form.get('nombre').dirty || validations_form.get('nombre').touched)">
+                          {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-input clearInput type="email" placeholder="Email" formControlName="email" class="input ion-padding-horizontal"></ion-input>
+                  <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.email">
+                        <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                          {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-input clearInput type="Contraseña" placeholder="Password" formControlName="password" class="input ion-padding-horizontal"></ion-input>
+                  <div class="validation-errors">
+                      <ng-container *ngFor="let validation of validation_messages.password">
+                        <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                          {{ validation.message }}
+                        </div>
+                      </ng-container>
+                    </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                  <ion-col>
+                    <ion-input clearInput type="text" placeholder="Rut (Sin puntos ni guión)" formControlName="rut" class="input ion-padding-horizontal"></ion-input>
+                    <div class="validation-errors">
+                        <ng-container *ngFor="let validation of validation_messages.rut">
+                          <div class="error-message" *ngIf="validations_form.get('rut').hasError(validation.type) && (validations_form.get('rut').dirty || validations_form.get('rut').touched)">
+                            {{ validation.message }}
+                          </div>
+                        </ng-container>
+                      </div>
+                  </ion-col>
+                </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-select color="light" okText="Aceptar" cancelText="Cancelar" placeholder="Tipo de cuenta" formControlName="tipocuenta" clearInput autocapitalize="off" inputmode="tipocuenta" class="input ion-padding-horizontal">
+                          <ion-select-option value="Usuario">Usuario</ion-select-option>
+                          <ion-select-option value="Taller">Taller</ion-select-option>
+                        </ion-select>
+
+                        <div class="validation-errors">
+                            <ng-container *ngFor="let validation of validation_messages.tipocuenta">
+                              <div class="error-message" *ngIf="validations_form.get('tipocuenta').hasError(validation.type) && (validations_form.get('tipocuenta').dirty || validations_form.get('tipocuenta').touched)">
+                                {{ validation.message }}
+                              </div>
+                            </ng-container>
+                        </div>
+                  </ion-col>
+                </ion-row>
+              <ion-row>
+                <ion-col>
+                    <ion-button expand="block" type="submit" [disabled]="!validations_form.valid" color="btnlogin" class="btn-transition"><strong class="white">Crear Cuenta</strong></ion-button>
+                    <label class="error-message">{{errorMessage}}</label>               
+                  </ion-col>
+
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                    <p class="info">Al registrarte estas aceptando nuestras <span routerLink="/politicasyprivacidad" class="url">políticas de privacidad</span> y <span routerLink="/terminosycondiciones" class="url">términos y condiciones</span></p>           
+                  </ion-col>
+
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                    <ion-button [routerLink]="[ '/login' ]" color="light" expand="block" fill="outline" class="btn-color"><strong>Tienes una cuenta? Inicia sesion</strong></ion-button>
+                  </ion-col>
+                </ion-row>
+        </ion-card-content>
+      </ion-card>
+      </form>
+</div>
+</ion-content>

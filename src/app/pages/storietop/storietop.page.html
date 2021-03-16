@@ -1,0 +1,24 @@
+<div class="stories">
+  <div class="story" >
+      <div class="add_story" (click)="crearhistoria()">
+          <img src="../../../assets/sidemenu.jpeg">
+          <ion-icon color="primary" name="add-circle"></ion-icon>
+      </div>
+      <p style="color: #e6e6e6;">{{usuario.name}}</p>
+  </div>
+
+  <div (click)="verhistorias(i)" class="story" *ngFor="let item of usuarioshistoria; let i=index">
+      <div class="img-box">
+          <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.userid" src="{{user.avatar}}">
+      </div>
+      <p *ngFor="let user of listadousuarios | filtrar: 'id' : item.userid">{{user.name}}</p>
+  </div>
+</div>
+
+<div class="subiendo">
+    <div *ngIf="preparando === 1">
+        Subiendo historia:
+    </div>
+
+    <div *ngIf="subido === 1" class="subidaexitosa"><p>Tu historia ha sido subida exitosamente.</p></div>
+</div>

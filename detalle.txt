@@ -1,0 +1,3 @@
+version funcionable
+subida a produccion sabado 14 de noviembre
+se omiten los videos que causaban problemas

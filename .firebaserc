@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "autosleonapp": {
+      "hosting": {
+        "app": [
+          "autosleonapp"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="start" color="light" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-title [routerLink]="[ '/profile', propietario.uid ]" slot="secondary">
+        Ir a EasyGo
+    </ion-title>
+  </ion-toolbar>
+
+   <ion-list>
+    <ion-item>
+      <ion-label>Dirección inicial: {{ geoAddress }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Dirección EasyGo: {{ easygo.direccion }}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Distancia: {{ distancia }} Km(s)</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-button color="success" (click)="iniciar()" expand="block">INICIAR VIAJE</ion-button>
+      <ion-button color="success" (click)="navme()" expand="block">NAVEGAR CON MAS MAPAS</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-header>
+<ion-content>
+ 
+
+  <agm-map
+    [zoom]="15"
+    [latitude]="geoLatitude"
+    [longitude]="geoLongitude">
+    <agm-direction 
+    [origin]="origin" 
+    [destination]="destination"
+    >
+    </agm-direction>
+  </agm-map>
+
+</ion-content>

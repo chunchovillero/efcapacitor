@@ -1,0 +1,67 @@
+.avatar {
+    text-align: center;
+    margin: 0 auto;
+    width: 67%;
+    height: 100%;
+}
+
+.fondo {
+    border-radius: 25px;
+}
+
+ion-label {
+    font-weight: bold;
+}
+
+p {
+    color: #fff
+}
+
+ion-spinner {
+    transform: scale(7);
+}
+
+.contfondo {
+    width: 100%;
+    clear: both;
+    position: relative;
+}
+
+.contloading {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 70px;
+}
+
+.contloadingperfil {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 90px;
+}
+
+.image-center{
+    margin:0 auto;
+    width: 200px;
+    height: 200px;
+    border: solid #222428 4px;
+}
+
+.input {
+    border: white solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+.textarea {
+    border: white solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 10px;
+}

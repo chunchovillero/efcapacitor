@@ -1,0 +1,65 @@
+
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{usuario.name}}</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment (ionChange)="quever($event)" color="dark">
+      <ion-segment-button value="seguidores" checked>
+        <ion-label *ngIf="listadoseguidores"> Seguidores <ion-badge color="primary">{{listadoseguidores.length}}</ion-badge></ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="seguidos">
+        <ion-label *ngIf="listadoseguidos"> Seguidos <ion-badge color="primary">{{listadoseguidos.length}}</ion-badge></ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  
+  <ion-list *ngIf="ver === 'seguidores'" color="dark" lines="none" class="lista ion-no-padding">
+    <ion-list-header color="primary">
+      <ion-label>{{listadoseguidores.length}} Seguidores</ion-label>
+    </ion-list-header>
+      <ion-item color="dark" *ngFor="let item of listadoseguidores; let i=index">
+        <ion-avatar [routerLink]="[ 'profile', item.seguido ]" slot="start">
+          <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguidor" src="{{ user.avatar }}">
+        </ion-avatar>
+        <ion-label>
+          <h2 [routerLink]="[ '/profile', item.seguidor ]" *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguidor">{{user.name}}</h2>
+          <p *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguidor">{{user.tipocuenta}}</p>
+        </ion-label>
+        <div *ngIf="item.seguidor != user">
+        <section slot="end">
+            <ion-button *ngIf="versilosigo(item.seguidor) === 1" (click)="dejardeseguir(item.seguidor)" expand="block" color="light">Siguiendo</ion-button>
+            <ion-button *ngIf="versilosigo(item.seguidor) === 0" (click)="seguir(item.seguidor)" expand="block" color="success">Seguir</ion-button>
+          </section>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <ion-list *ngIf="ver === 'seguidos'" color="dark" lines="none" class="lista ion-no-padding">
+      <ion-list-header color="primary">
+        <ion-label>{{listadoseguidos.length}} Seguidos</ion-label>
+      </ion-list-header>
+        <ion-item color="dark" *ngFor="let item of listadoseguidos; let i=index">
+          <ion-avatar [routerLink]="[ '/profile', item.seguido ]" slot="start">
+            <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguido" src="{{ user.avatar }}">
+          </ion-avatar>
+          <ion-label>
+            <h2 [routerLink]="[ '/profile', item.seguido ]" *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguido">{{user.name}}</h2>
+            <p *ngFor="let user of listadousuarios | filtrar: 'id' : item.seguido">{{user.tipocuenta}}</p>
+          </ion-label>
+          <div *ngIf="item.seguido != user">
+          <section slot="end">
+              <ion-button *ngIf="versilosigo(item.seguido) === 1" (click)="dejardeseguir(item.seguido)" expand="block" color="light">Siguiendo</ion-button>
+              <ion-button *ngIf="versilosigo(item.seguido) === 0" (click)="seguir(item.seguido)" expand="block" color="success">Seguir</ion-button>
+            </section>
+          </div>
+        </ion-item>
+      </ion-list>
+</ion-content>

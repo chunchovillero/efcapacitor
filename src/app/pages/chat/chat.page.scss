@@ -1,0 +1,96 @@
+ion-content {
+    --background: url(../../../assets/chatbackgroud.jpg) 0 0/100% 100% no-repeat;
+  }
+
+  ion-toolbar {
+    --background: #006257;
+    color: #fff;
+    padding: 0 !important;
+  }
+  .chat {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    margin: 0.2em 0;
+    padding: 0.5em;
+    max-width: 70%;
+  }
+  
+  .me {
+    align-self: flex-start;
+    background-color: #FFFFFF;
+    color: #949494;
+    border-radius: 10px 10px 10px 0px;
+    margin-left: 13px;
+  }
+  
+  .you {
+    align-self: flex-end;
+    background-color: #E0F4C7;
+    color: #6E7C66;
+    border-radius: 10px 10px 0px 10px;
+    display: inline-block;
+    margin-right: 13px;
+  }
+  
+  .chatSmiley {
+    position: fixed;
+    bottom: 0;
+    margin-left: 23px;
+    z-index: 10;
+    color: #000;
+    margin-bottom: 17px;
+    font-size: 30px;
+  }
+  .firstInputRightButton {
+    margin-right: 115px !important;
+  }
+  .InputRightButtons {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 80px;
+    z-index: 10;
+    color: #000;
+    margin-bottom: 17px;
+    font-size: 30px;
+  }
+  .chatInput {
+    overflow: hidden;
+    background: white;
+    border-radius: 21px;
+    position: fixed;
+    padding-left: 45px;
+    margin-left: 10px;
+    bottom: 0;
+    margin-bottom: 10px;
+    width: calc(100% - 70px);
+  }
+  .micFab {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+  }
+  .fab {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .hora {
+    font-size: 12px;
+  }
+
+  .messageArea{
+    margin-bottom: 53px;
+  }
+
+  ion-footer {
+    height: 0px;
+}
+
+video  {
+  width: 100%;
+}

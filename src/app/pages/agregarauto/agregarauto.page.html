@@ -1,0 +1,63 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+    <ion-title>Agrega un auto</ion-title>
+    <ion-icon slot="end" name="close" (click)="cerrar()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12" class="ion-padding-start"> <h5>Marca: 
+        <span class="ion-no-padding" class="direccion">
+          <ion-select okText="Selecccionar" cancelText="Cancelar" [(ngModel)]="auto.marca" (ionChange)="selectMarcas($event)" placeholder="Selecciona una marca">
+            <ion-select-option *ngFor="let marcas of listadomarcas" [value]="marcas.nombre">{{ marcas.nombre }}</ion-select-option>
+          </ion-select>
+        </span></h5>
+      </ion-col>
+
+      <ion-col size="12" class="ion-padding-start"> <h5>Modelo: 
+        <span class="ion-no-padding" class="direccion">
+          <ion-select [(ngModel)]="auto.modelo" placeholder="Selecciona un modelo">
+            <ion-select-option *ngFor="let modelos of listadomodelos" [value]="modelos">{{ modelos }}</ion-select-option>
+          </ion-select>
+        </span></h5>
+      </ion-col>
+
+      <ion-col size="12" class="ion-padding-start ion-padding-top"><h5>Patente  <ion-input [(ngModel)]="auto.patente" class="input patente" autofocus="true" placeholder="Ej. aaaa10"></ion-input></h5></ion-col>
+
+      
+      <ion-col size="12" class="ion-padding-start ion-padding-top"><h5>Color: <ion-input [(ngModel)]="auto.color" class="input" autofocus="true" placeholder="Ingresa el color del auto"></ion-input></h5></ion-col>
+
+      <ion-col size="1"><ion-icon name="images"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Fotos del auto:</h5>
+        <p class="ion-no-padding" class="info">
+        Puedes tomar fotos o subir imágenes de tu galería, esto ayudara a los profesionales a identificar el auto al cual necesitas el servicio.
+        </p>
+      </ion-col>
+
+      <ion-col size="4" *ngFor="let item of media; let i=index">
+        <ion-img [src]="item.base64"></ion-img>
+        <ion-icon (click)="deleteimg(i)" class="trash" name="trash"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col (click)="elegirImagen()" class="ion-text-center ion-padding-top" size="6">
+        <p>Desde Galeria</p>
+       <ion-icon class="iconimg" name="images"></ion-icon>
+      </ion-col>
+      <ion-col (click)="tomarImagen()" class="ion-text-center ion-padding-top" size="6">
+        <p>Desde camara</p>
+        <ion-icon class="iconimg" name="camera"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer color="dark">
+    <ion-toolbar color="dark">
+        <ion-button (click)="subir()" color="botones" expand="block">Agregar Auto</ion-button>
+    </ion-toolbar>
+</ion-footer>

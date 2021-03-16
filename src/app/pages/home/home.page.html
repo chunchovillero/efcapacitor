@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+    <ion-menu-button menu="start" color="light" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-img slot="end" class="ion-padding img-home" src="../../../assets/logotexto.png"></ion-img>
+  </ion-toolbar>
+</ion-header>
+
+<app-search></app-search>
+
+<ion-fab vertical="center" horizontal="end" slot="fixed">
+  <ion-fab-button [routerLink]="['/crearpost']">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-content color="primary">
+  
+  <app-storietop></app-storietop>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar las publicaciones"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando las publicaciones...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div *ngIf="listo === 1"> 
+    <div class="animated fadeIn slow{{i+1}}"  *ngFor="let item of listadoamostrar; let i=index">
+      <div class="feed-block" >
+        <div class="block-header">
+          <ion-item lines="none" color="dark">
+            <ion-avatar *ngIf="listadousuarios" slot="start">
+              <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.creador" src="{{ user.avatar }}">
+            </ion-avatar>
+            <ion-label>
+              <ion-text color="light">
+                <h3  [routerLink]="['/profile', item.creador]" *ngFor="let user of listadousuarios | filtrar: 'id' : item.creador">{{user.name}}</h3>
+                <h5 [routerLink]="['/profile', item.creador]" *ngFor="let user of listadousuarios | filtrar: 'id' : item.creador">{{user.tipocuenta}}</h5>
+              </ion-text>
+            </ion-label>
+            <ion-icon [routerLink]="['/verpost',item.id, usuario.id]" slot="end" name="eye-outline"></ion-icon>
+          </ion-item>
+        </div>
+        <div class="block-image"  color="dark">
+
+          <ion-slides pager="true" [options]="slideOpts">
+              <ion-slide *ngFor="let imagenes of item.images">
+                <div (click)="zoom(imagenes.url)" *ngIf="imagenes.tipo === 'image/jpeg'" class="contenedor-imagenes" [style.backgroundImage]="'url(' + imagenes.url + ')'"></div>
+                <div *ngIf="imagenes.tipo === 'video/mp4'" class="contenedor-imagenes">
+                    <video preload="metadata" webkit-playsinline playsinline src="{{imagenes.url}}#t=0.1" controls height="400"></video>
+                </div>
+              </ion-slide>
+            </ion-slides>
+        </div>
+
+        <div class="block-icons">
+          <app-corazon [idpost] = "item.id" [iduser] = "usuario.id"></app-corazon>
+          <ion-icon slot="icon" name="chatbubble-outline" [routerLink]="['/comentarios', item.id, usuario.id]"></ion-icon>
+        </div>
+
+        <div class="block-desc">
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="6">
+                <ion-text class="likes" [routerLink]="[ '/megusta', item.id, usuario.id]"><app-countlike [idpost] = "item.id"></app-countlike> Me Gusta</ion-text>
+              </ion-col>
+              <ion-col size="6" [routerLink]="['/comentarios', item.id, usuario.id]">
+                  <app-countcomentarios  [idpost] = "item.id"></app-countcomentarios>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <div>
+            <ion-text [routerLink]="['/post', item.id]">{{item.texto}}</ion-text>
+          </div>
+
+          <div  [routerLink]="['/comentarios', item.id, usuario.id]">
+            <app-comentarios [idpost]="item.id" [iduser] = "usuario.id"></app-comentarios>
+          </div>
+
+          <div class="time">{{hace(item.date.toDate() | date: "MMddyyyy HHmmss")}}</div>
+
+        </div>
+      </div>
+
+      <div *ngIf="listadopublicidad">
+          <div *ngIf="i % 3 === 0">
+              <div *ngIf="listadopublicidad.length > i/3 ">
+                <img src="{{listadopublicidad[i/3].imagen}}"/>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <ion-infinite-scroll threshold="200px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="No hay mas publicaciones">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+
+<ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button [routerLink]="['/home']" >
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/profile', usuario.id]" >
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button *ngIf="usuario.tipocuenta === 'Usuario'" [routerLink]="['/cotizar']">
+        <ion-icon name="build-outline"></ion-icon>
+        <ion-label>Cotizar</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/chats']">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <ion-label>Chats</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/solicitudes']">
+        <ion-icon name="repeat-outline"></ion-icon>
+        <ion-label>Solicitudes</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>

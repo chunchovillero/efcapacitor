@@ -1,0 +1,13 @@
+<p *ngIf="listadocomentarios.length > 2">Ver los {{listadocomentarios.length}} comentarios</p>
+
+<div *ngFor="let item of listadocomentarios ; let i = index"> 
+    <ion-item color="transparent" *ngIf="i < 3">
+        <ion-avatar class="avatar-top" slot="start">
+            <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.iduser" src="{{ user.avatar }}">
+        </ion-avatar>
+        <ion-label class="mt0 coment">
+          <span class="titulo" *ngFor="let user of listadousuarios | filtrar: 'id' : item.iduser">{{user.name}}</span> 
+          <span>{{item.comentario}}</span>
+        </ion-label>
+    </ion-item>
+  </div>

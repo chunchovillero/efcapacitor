@@ -1,0 +1,24 @@
+<div *ngIf="listadomensajes.length > 0">
+    <div *ngIf="parte === 'ultimomensaje' && chat.istiping === '0'">
+        <p class="istiping" *ngIf="this.ultimomensaje.tipo === 'text'">
+            {{ultimomensaje.mensaje}}
+        </p>
+        <p class="istiping" *ngIf="this.ultimomensaje.tipo === 'image'">
+            Foto <ion-icon  name="image"></ion-icon> 
+        </p>
+    </div>
+    
+    <div *ngIf="parte === 'ultimomensaje' && chat.istiping === '1'">
+            <p *ngIf="this.ultimomensaje.tipo === 'text'">
+               <span class="istiping" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.quienistiping">{{user.name}}</span> <span class="istiping"> está escribiendo</span>
+            </p>
+            <p *ngIf="this.ultimomensaje.tipo === 'image'">
+                Foto <ion-icon  name="image"></ion-icon> 
+            </p>
+    </div>
+    
+    <div *ngIf="parte === 'ultimomensajefecha' && ultimomensaje.date">
+        {{hace(ultimomensaje.date.toDate() | date: "MMddyyyy HHmmss")}}
+    </div>
+</div>
+

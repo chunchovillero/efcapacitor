@@ -1,0 +1,60 @@
+ion-icon {
+    font-size: 30px;
+}
+
+.textarea {
+    border: white solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+    height: 92px;
+}
+
+.input {
+    border: white solid 1px;
+    border-radius: 10px;
+    padding: 5px;
+    margin-top: 10px;
+}
+
+h5 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+.direccion {
+    color: orange;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.info {
+    color: #d0d0d0;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.pac-container {  
+    z-index: 9999999 !important;  
+    top: 32px !important;   //your input height
+    left: 0 !important; 
+}
+
+.iconimg {
+    font-size: 60px;
+}
+
+.trash {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border-radius: 50px;
+    color: black;
+}

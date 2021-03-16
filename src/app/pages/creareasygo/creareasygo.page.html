@@ -1,0 +1,76 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+      <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Crear Promoción EasyGo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Ubicación de la promoción EasyGo: <span class="ion-no-padding" class="direccion">{{ geoAddress }}</span></h5>
+        
+      </ion-col>
+      <ion-col size="12">
+          <p class="ion-no-padding info">Si deseas cambiar la ubicación ingresa una nueva dirección<p>
+          <p class="ion-no-padding"><ion-input placeholder="Ingresa una nueva dirección" class="input" id="txtHome" (keyup)="cambio()"  [(ngModel)]="search" type="text"></ion-input><p>
+      </ion-col>
+
+      <ion-col size="1" class="ion-padding-top"><ion-icon name="create"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start ion-padding-top"><h5>Descripción de la promoción</h5></ion-col>
+      <ion-col size="12"><ion-textarea [(ngModel)]="descripcion" name="descripcion" class="textarea" autofocus="true" placeholder="Escribe en detalle que necesitas"></ion-textarea></ion-col>
+
+
+      <ion-col size="1"><ion-icon name="images"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Fotos o videos de la promoción:</h5>
+        <p class="ion-no-padding" class="info">
+          Sube fotos o videos a la promoción EasyGo
+        </p>
+      </ion-col>
+
+      <ion-col size="4" *ngFor="let item of media; let i=index">
+        <ion-img *ngIf="item.tipo == 'image/jpeg'" [src]="item.base64"></ion-img>
+
+        <video *ngIf="item.tipo == 'video/mp4'" autoplay controls [src]="item.base64" controls>
+            The “video” tag is not supported by your browser. Click [here] to download the video file.
+          </video>
+
+        <ion-icon (click)="deleteimg(i)" class="trash" name="trash"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col (click)="elegirImagen()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="images"></ion-icon>
+        <p>Imagén desde galería</p>
+      </ion-col>
+
+      <ion-col (click)="tomarImagen()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="camera"></ion-icon>
+        <p>Imagén desde cámara</p>
+      </ion-col>
+
+      <!-- <ion-col (click)="pickVideo()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="image"></ion-icon>
+        <p>Video desde galería  </p>
+      </ion-col> -->
+
+      <ion-col (click)="grabarVideo()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="videocam"></ion-icon>
+        <p>Video desde cámara  </p>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-toolbar color="dark">
+        <ion-button (click)="subir()" class="ion-padding" color="botones" expand="block">Crear promoción de EasyGo</ion-button>
+    </ion-toolbar>
+    </ion-row>
+  </ion-grid>
+</ion-content>

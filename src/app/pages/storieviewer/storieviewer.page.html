@@ -1,0 +1,67 @@
+<ion-content>
+    
+  <ion-slides #slideWithNav class="slide" (press)="pauseStory()" (pressup)="playStory()" (ionSlideDidChange)="cambiaslide()" *ngIf="listo === 1" pager="true" [options]="slideOpts">
+      <ion-slide *ngFor="let story of contenido; let indexStory = index"  (click)="changeStoryItem($event, story)" [ngClass]="isPaused || isWaiting ? 'isPaused' : ''">
+          <div class="contenedor">
+            <!-- barras -->
+              <ion-grid class="pagination">
+                  <ion-row>
+                    <ion-col *ngFor="let items of story.historias; let index = index">
+                      <div #progress class="progress" *ngIf="story.currentItem === index && current === indexStory" [ngStyle]="{'animation-duration': story.historias[story.currentItem].duration + 's'}"></div>
+                    </ion-col>
+                  </ion-row>
+              </ion-grid>
+              
+            <div class="header">
+              <ion-grid fixed>
+                <ion-row>
+                  <ion-col size="2" class="avatar">
+                    <ion-avatar >
+                    <img class="avatar" *ngFor="let user of listadousuarios | filtrar: 'id' : story.userid" [src]="user.avatar" />
+                  </ion-avatar></ion-col>
+                  <ion-col size="9">
+                    <p class="username" *ngFor="let user of listadousuarios | filtrar: 'id' : story.userid">{{user.name}}</p>
+                    <p class="hora" *ngFor="let item of story.historias; let index = index" [hidden]="story.currentItem != index">
+                      {{hace(item.date.toDate() | date: "MMddyyyy HHmmss")}}
+                    </p>
+                  </ion-col>
+                  <ion-col size="1">
+                    <ion-icon name="close" (click)="cerrarHistorias()"></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+
+            <div class="item animated fadeIn slow1" *ngFor="let item of story.historias; let index = index" [hidden]="story.currentItem != index">
+              <!-- <ion-spinner [hidden]="item.type == 0 || (!isLoading(indexStory) && !isWaiting)"></ion-spinner> -->
+              <div *ngIf="item.tipo === 0" class="contenedorfondo" style.background-image="url({{item.media}})">
+              </div>
+
+              <div *ngIf="item.tipo === 1" class="contenedorimagen" style.background-image="url({{item.media}})">
+              </div>
+
+              <div *ngIf="item.tipo === 1" class="imagen">
+                <ion-img [src]="item.media"></ion-img>
+              </div>
+
+              <div *ngIf="item.tipo === 2" class="imagen">
+                  <ion-spinner *ngIf="isWaiting" [hidden]="story.currentItem != index"></ion-spinner>
+                  <video #video webkit-playsinline playsinline preload="metadata" [src]="item.media" *ngIf="story.currentItem === index"></video>
+              </div>
+              
+              <div class="elemento" style.top="{{elemento.top}}px" style.left="{{elemento.left}}px" *ngFor="let elemento of item.elementos">
+                  <div  *ngIf="elemento.tipo === 'imagen'">
+                      <ion-img [ngStyle]="{'transform': 'rotate('+ elemento.rotate +'deg)'}" style.width="{{elemento.width}}px" [src]="elemento.url"></ion-img>
+                  </div>
+              </div>
+
+              <div class="elemento" style.top="{{elemento.top}}px" style.left="{{elemento.left}}px" *ngFor="let elemento of item.elementos">
+                  <div  *ngIf="elemento.tipo === 'text'" style.font-size="{{elemento.fontsize}}px" style.color="{{elemento.color}}">
+                    <p [ngStyle]="{'transform': 'rotate('+ elemento.rotate +'deg)'}">{{elemento.texto}}</p>
+                  </div>
+              </div>
+            </div>
+          </div>
+      </ion-slide>
+    </ion-slides>
+</ion-content>

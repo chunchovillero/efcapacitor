@@ -1,0 +1,13 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+    <ion-title>Términos y condiciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="primary">
+  <div *ngIf="configuracion.terminos" [innerHTML]="configuracion.terminos" class="ion-padding">
+</div>
+</ion-content>

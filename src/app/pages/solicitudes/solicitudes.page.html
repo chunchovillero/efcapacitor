@@ -1,0 +1,164 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="start" color="light" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      TUS SOLICITUDES
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="primary">
+  <ion-row class="ion-margin-top ion-margin-bottom">
+    <ion-col size="12" *ngIf="usuario.tipocuenta === 'Taller'">
+      <ion-card *ngIf="listadomiscotizaciones.length === 0">
+        <ion-item>
+          <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+          <ion-label>Aun no tienes Solicitudes.</ion-label>
+        </ion-item>
+      </ion-card>
+      
+      <div class="animated fadeInLeft slow{{i+1}}" *ngFor="let item of listadomiscotizaciones; let i = index">
+        <div *ngFor="let coti of listadocotizaciones | buscarcoti: 'id' : item.cotizacionid">
+          <ion-card [routerLink]="[ '/cotizacion', item.cotizacionid ]" class="cardSection ion-margin-top">
+            <ion-card-content>
+              <ion-row>
+                <ion-col size="3">
+                  <div *ngIf="coti.imagenes[0] && coti.imagenes[0].tipo  === 'image/jpeg'" class="imagen" [style.backgroundImage]="'url(' + coti.imagenes[0].url + ')'"></div>
+                  
+                  <div *ngIf="coti.imagenes[0] && coti.imagenes[0].tipo  === 'video/mp4'" class="imagen">
+                    <ion-img src="../../../assets/video.png"></ion-img>
+                  </div>
+                  
+                  <div *ngIf="!coti.imagenes[0]" class="imagen">
+                    <ion-img src="../../../assets/car.jpg"></ion-img>
+                  </div>
+                  
+                </ion-col>
+
+                <ion-col size="9" class="title pr0 ion-no-padding">
+                  <ion-row>
+                    <ion-col size="12" class="title ion-no-padding" >
+                      <p  *ngFor="let user of listadousuarios | filtrar: 'id' : item.uid"class="productTypeText"><b>{{user.name}}</b> {{item.texto}}</p>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col size="12" class="ion-no-padding">
+                      <div>
+                        <p class="productTypeText categoria">Categoria: {{ coti.categorianombre }}</p>
+                        <p class="productTypeText descripcion">{{ coti.descripcion }}</p>
+                        <p class="productTypeText ">{{ coti.marca }} {{ coti.modelo }} {{ coti.color }}</p>
+                      </div>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+
+                <ion-col>
+                  <p class="productTypeText ">Estado: {{ coti.estado }}</p>
+                  <div *ngIf="coti.estado === 'cerrada'">
+                    <p *ngIf="coti.elegido === usuario.id" class="productTypeText ">Eres el elegido</p>
+                    <p *ngIf="coti.elegido !=  usuario.id" class="productTypeText ">No eres el elegido</p>
+                  </div>
+                </ion-col>
+
+                <ion-col size="6">
+                  <p class="productTypeText">{{hace(item.date.toDate() | date: "MMddyyyy HHmmss")}}</p>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </div>
+    </ion-col>
+
+    <ion-col size="12" *ngIf="usuario.tipocuenta === 'Usuario'">
+      <ion-card *ngIf="listadomiscotizaciones.length === 0">
+        <ion-item>
+          <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+          <ion-label>Aun no tienes Solicitudes.</ion-label>
+        </ion-item>
+      </ion-card>
+
+      <div *ngFor="let item of listadomiscotizaciones; let i = index">
+        <ion-card [routerLink]="[ '/cotizacion', item.id ]" class="cardSection ion-margin-top">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="3">
+                <div *ngIf="item.imagenes[0] && item.imagenes[0].tipo === 'image/jpeg'" class="imagen" [style.backgroundImage]="'url(' + item.imagenes[0].url + ')'"></div>
+                <div *ngIf="item.imagenes[0] && item.imagenes[0].tipo === 'video/mp4'" class="imagen">
+                  <ion-img src="../../../assets/video.png"></ion-img>
+                </div>
+                <div *ngIf="!item.imagenes[0]" class="imagen">
+                  <ion-img src="../../../assets/car.jpg"></ion-img>
+                </div>
+              </ion-col>
+
+              <ion-col size="9" class="title pr0 ion-no-padding">
+                <ion-row>
+                  <ion-col size="12" class="title ion-no-padding" >
+                    <p  *ngFor="let user of listadousuarios | filtrar: 'id' : item.uid"class="productTypeText"><b>Nombre: {{user.name}}</b> {{item.texto}}</p>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col size="12" class="ion-no-padding">
+                    <div>
+                      <p  class="productTypeText categoria">Categoria: {{ item.categorianombre }}</p>
+                      <p  class="productTypeText descripcion">{{ item.descripcion }}</p>
+                      <p  class="productTypeText ">{{ item.marca }} {{ item.modelo }} {{ item.color }}</p>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+
+              <ion-col size="6">
+                <p  class="productTypeText ">Estado: {{ item.estado }}</p>
+              </ion-col>
+              <ion-col size="6">
+                <p class="productTypeText">{{hace(item.date.toDate() | date: "MMddyyyy HHmmss")}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+  </ion-row>
+
+  
+
+  
+</ion-content>
+
+
+<ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button [routerLink]="['/home']" >
+        <ion-icon name="home-outline"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/profile', usuario.id]" >
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-label>Perfil</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button *ngIf="usuario.tipocuenta === 'Usuario'" [routerLink]="['/cotizar']">
+        <ion-icon name="build-outline"></ion-icon>
+        <ion-label>Cotizar</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/chats']">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <ion-label>Chats</ion-label>
+      </ion-tab-button>
+  
+      <ion-tab-button [routerLink]="['/solicitudes']">
+        <ion-icon name="repeat-outline"></ion-icon>
+        <ion-label>Solicitudes</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>

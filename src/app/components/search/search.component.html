@@ -1,0 +1,17 @@
+<div style="position: relative">
+    <ion-searchbar class="ion-no-padding" (ionChange)="buscar( $event )" [(ngModel)]="search" placeholder="Buscar..."></ion-searchbar> 
+
+    <ion-list *ngIf="search" style="position: absolute; z-index:100; width: 100%">
+        <ion-item (click)="enviar(usuarios.uid)" *ngFor="let usuarios of listadousuarios | filtro: textobuscar: 'name'">
+          <ion-avatar slot="start">
+              <img *ngIf="usuarios.avatar" [src]="usuarios.avatar">
+              <img *ngIf="!usuarios.avatar" src="../../../assets/avatar.png" alt="">
+          </ion-avatar>
+          <ion-label>
+            <h2></h2>
+            <h3>{{usuarios.name}}</h3>
+            <p>{{usuarios.tipocuenta  }}</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+</div>

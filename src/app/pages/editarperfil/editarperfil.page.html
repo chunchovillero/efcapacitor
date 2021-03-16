@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+          <ion-back-button></ion-back-button>
+        </ion-buttons>
+    <ion-title>Editar mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button [routerLink]="[ '/profile', usuario.id ]" class="animated fadeInUp slow1" expand="block" color="botones" >
+          Ver perfil
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button (click)="guardarCambios()" class="animated fadeInUp slow1" expand="block" color="botones" >
+          Guardar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-item (click)="editaravatar()" color="dark" lines="none" color="dark">
+      <ion-label slot="start">Foto de perfil</ion-label>
+      <ion-text slot="end" color="primary">
+        <p (click)="editaravatar()">Editar</p>
+      </ion-text>
+  </ion-item >
+
+  <ion-item (click)="editaravatar()" color="dark" class="item">
+      <div class="contfondo">
+        <ion-avatar class="avatar image-center" style="text-align: center">
+          <img *ngIf="avatar === ''" [src]="usuario.avatar" />
+          <img *ngIf="avatar !== ''" [src]="avatar" />
+        </ion-avatar>
+      </div>
+  </ion-item>
+
+  <ion-item (click)="editarportada()" color="dark" lines="none">
+    <ion-label slot="start">Foto de fondo</ion-label>
+    <ion-text slot="end" color="primary">
+      <p (click)="editarportada()">Editar</p>
+    </ion-text>
+</ion-item>
+
+<ion-item (click)="editarportada()" color="dark">
+  <div class="contfondo">
+    <img *ngIf="fondo === ''" class="fondo" [src]="usuario.fondo" />
+    <img *ngIf="fondo !== ''" class="fondo" [src]="fondo" />
+  </div> 
+</ion-item>
+
+<ion-item color="dark" lines="none">
+  <ion-label slot="start">Nombre</ion-label>
+</ion-item>
+
+<ion-item color="dark">   
+ <ion-input placeholder="Ingresa tu nombre" class="input" id="txtHome" [(ngModel)]="nombrecambio" type="text"></ion-input>
+</ion-item>
+
+<ion-item color="dark" lines="none">
+  <ion-label slot="start">Descripcion</ion-label>
+</ion-item>
+
+<ion-item color="dark">   
+  <ion-textarea [(ngModel)]="descripcioncambio" class="textarea" name="descripcioncambio" class="textarea" autofocus="true" placeholder="Escribe tu descripción"></ion-textarea>
+</ion-item>
+
+
+<ion-item *ngIf="usuario.tipocuenta === 'Taller'" color="dark" lines="none">
+  <ion-label slot="start">Especialidad</ion-label>
+</ion-item>
+
+<ion-item color="dark" *ngIf="usuario.tipocuenta === 'Taller'">   
+  <ion-input placeholder="Ingresa tu especialidad" class="input" id="txtHome" [(ngModel)]="especialidadcambio" type="text"></ion-input>
+</ion-item>
+
+<ion-item color="dark" lines="none" *ngIf="usuario.tipocuenta === 'Taller'">
+  <ion-label slot="start">Experiencia</ion-label>
+</ion-item>
+
+<ion-item color="dark" *ngIf="usuario.tipocuenta === 'Taller'">   
+  <ion-input placeholder="Ingresa tu experiencia" class="input" id="txtHome" [(ngModel)]="experienciacambio" type="text"></ion-input>
+</ion-item>
+
+<ion-grid>
+  <ion-row>
+    <ion-col size="6">
+      <ion-button [routerLink]="[ '/profile', usuario.id ]" class="animated fadeInUp slow1" expand="block" color="botones" >
+        Ver perfil
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button (click)="guardarCambios()" class="animated fadeInUp slow1" expand="block" color="botones" >
+        Guardar
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>
+
+
+</ion-content>

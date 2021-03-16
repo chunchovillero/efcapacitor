@@ -1,0 +1,68 @@
+<ion-content class="ion-no-padding" color="primary2">
+    <div class="main">
+      <ion-card class="card ion-no-margin" color="primary2">
+        <ion-card-content>
+            <ion-row class="row">
+                <div class="fire-logo">
+                    <img src="../../../assets/logo.png" class="img-logo">
+                    <ion-text><h2 class="ion-no-margin ion-margin-vertical ion-text-center">Iniciar Sesión</h2></ion-text>
+                  </div>
+            </ion-row>
+  
+            <form class="form" [formGroup]="validations_form"  (ngSubmit)="loginUser(validations_form.value)">
+            <ion-row>
+                <ion-col>
+                  <ion-input clearInput type="email" placeholder="Email" formControlName="email" class="input ion-padding-horizontal" clear-input="true"></ion-input>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.email">
+                      <div class="error-message" *ngIf="validations_form.get('email').hasError(validation.type) && (validations_form.get('email').dirty || validations_form.get('email').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-input clearInput type="password" placeholder="Contraseña" formControlName="password" class="input ion-padding-horizontal"  clear-input="true"></ion-input>
+                  <div class="validation-errors">
+                    <ng-container *ngFor="let validation of validation_messages.password">
+                      <div class="error-message" *ngIf="validations_form.get('password').hasError(validation.type) && (validations_form.get('password').dirty || validations_form.get('password').touched)">
+                        {{ validation.message }}
+                      </div>
+                    </ng-container>
+                  </div>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text [routerLink]="[ '/recuperarcontrasena' ]"float-end color="light" ><h6 text-end class="small ion-no-margin">Olvidaste tu contraseña?</h6></ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button expand="block" type="submit" [disabled]="!validations_form.valid" color="btnlogin" class="btn-transition"><strong class="white">Iniciar Sesión</strong></ion-button>
+                  <label class="error-message">{{errorMessage}}</label>
+                </ion-col>
+              </ion-row>
+              <div class="line"></div>
+              <ion-row>
+                <ion-col>
+                  <ion-button expand="block" fill="outline" color="light" (click)="goToRegisterPage()" class="btn-color"><strong>Registrar una nueva cuenta</strong></ion-button>
+                </ion-col>
+              </ion-row>
+            </form>
+  
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ion-content>
+  
+  <ion-footer color="primary">
+    <ion-toolbar color="primary">
+      <ion-title class='version'>
+        <p>version: {{ configuracion.version }}</p> 
+      </ion-title>
+    </ion-toolbar>
+  </ion-footer>
+  

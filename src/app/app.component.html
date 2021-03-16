@@ -1,0 +1,124 @@
+<ion-app>
+
+  <ion-menu class="sidemenu-1 my-custom-menu" contentId="principal" side="start" type="overlay">
+    <ion-content class="contentBg">
+      <div>
+        <ion-card slot="fixed" class="driverCard fixed ion-no-margin ion-no-padding" color="primary">
+          <ion-item lines="none" class="ion-padding-vertical">
+            <div class="driverProfileImage">
+              <ion-avatar slot="start" class="profile">
+                <img src="{{usuario.avatar}}">
+              </ion-avatar>
+              <div class="ion-margin-end ion-margin-start">
+                <h3 class="userName ion-no-margin">{{usuario.name}}</h3>
+                <span class="userDetails">
+                  {{usuario.tipocuenta}}
+                </span>
+              </div>
+              <ion-icon slot="end" name="sync" (click)="actualizarDatos()"></ion-icon>
+            </div>
+          </ion-item>
+
+          <ion-card-content class="ion-no-margin ion-no-padding">
+            <div class="cardContent">
+              <div class="driverDetails">
+                <ion-icon name="construct-outline" class="driverStatusIcons"></ion-icon>
+                <ion-label class="textColor textBold detailsLabel">{{listadomiscotizaciones.length}}</ion-label>
+                <p class="detailText">Solicitud(es)</p>
+              </div>
+              <div class="driverDetails">
+                <ion-icon name="grid-outline" class="driverStatusIcons"></ion-icon>
+                <ion-label class="textColor textBold detailsLabel ion-text-uppercase">{{mispost.length}}</ion-label>
+                <p class="detailText">Publicacion(es)</p>
+              </div>
+            </div>
+
+          </ion-card-content>
+        </ion-card>
+      </div>
+      <ion-list color="dark" lines="none" class="ion-padding-top">
+        <ion-menu-toggle auto-hide="false">
+
+          <ion-grid >
+            <ion-row>
+              <ion-col size="1"> <ion-icon slot="start" name="add" ></ion-icon> </ion-col>
+              <ion-col size="10"></ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <ion-item  color="dark" [routerLink]="[ '/profile', usuario.id]">
+            <ion-icon slot="start" name="person-circle-outline" ></ion-icon>
+            <ion-label>
+              Perfíl
+            </ion-label>
+          </ion-item>
+
+          <!-- <ion-item  color="dark" [routerLink]="[ '/admob' ]">
+            <ion-icon slot="start" name="add" ></ion-icon>
+            <ion-label>
+              Admob
+            </ion-label>
+          </ion-item> -->
+
+
+          <ion-item  color="dark" [routerLink]="[ '/crearpost' ]">
+            <ion-icon slot="start" name="add" ></ion-icon>
+            <ion-label>
+              Crear Publicación
+            </ion-label>
+          </ion-item>
+
+          <ion-item  color="dark" [routerLink]="[ '/solicitudes']">
+            <ion-icon slot="start" name="construct-outline" ></ion-icon>
+            <ion-label>
+              Solicitudes
+            </ion-label>
+          </ion-item>
+
+          <ion-item  color="dark" [routerLink]="[ '/chats']">
+            <ion-icon slot="start" name="chatbubbles-outline" ></ion-icon>
+            <ion-label>
+              Chats
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="usuario.tipocuenta === 'Usuario'"  color="dark" [routerLink]="[ '/cotizar']">
+            <ion-icon slot="start" name="build-outline" ></ion-icon>
+            <ion-label>
+              Cotizar
+            </ion-label>
+          </ion-item>
+
+          <!-- <ion-item *ngIf="usuario.tipocuenta === 'Taller'"  color="dark" [routerLink]="[ '/easygo']">
+            <ion-icon slot="start" name="chatbubbles-outline" ></ion-icon>
+            <ion-label>
+              EasyGo
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="usuario.tipocuenta === 'Usuario'"  color="dark" [routerLink]="[ '/easygo']">
+            <ion-icon slot="start" name="chatbubbles-outline" ></ion-icon>
+            <ion-label>
+              EasyGo
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="usuario.tipocuenta === 'Usuario'"  color="dark" [routerLink]="[ '/test']">
+            <ion-icon slot="start" name="chatbubbles-outline" ></ion-icon>
+            <ion-label>
+              Test
+            </ion-label>
+          </ion-item> -->
+
+          <ion-item  color="dark" (click)="CerrarSesion()">
+            <ion-icon slot="start" name="close-circle-outline" ></ion-icon>
+            <ion-label>
+              Cerrar Sesión
+            </ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="principal"></ion-router-outlet>
+</ion-app>

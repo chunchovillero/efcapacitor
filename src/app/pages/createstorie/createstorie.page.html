@@ -1,0 +1,263 @@
+<ion-content>
+  <div class="contenedor">
+    <div class="principal">
+      <div class="header">
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col size="6">
+              <p>
+                <ion-button (click)="finalizar()" expand="block" shape="round">
+                  Publicar Historia
+                </ion-button>
+              </p>
+            </ion-col>
+            <ion-col size="5">
+            </ion-col>
+            <ion-col size="1">
+              <ion-icon name="close" (click)="cerrarHistorias()"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+
+      <div *ngIf="historia.tipo === 0" class="contenedorfondo" style.background-image="url({{filelocal}})">
+      </div>
+
+      <div *ngIf="historia.tipo === 1" class="contenedorimagen" style.background-image="url({{filelocal}})">
+        
+      </div>
+
+      <div class="contenedormedia">
+        <ion-img *ngIf="historia.tipo === 1" [src]="filelocal"></ion-img>
+        <!-- <video *ngIf="historia.tipo === 2 && ver === 0" #video webkit-playsinline playsinline preload="metadata" [src]="filelocal"></video> -->
+
+        <video *ngIf="historia.tipo === 2 && ver === 0" autoplay controls [src]="filelocal" controls>
+            The “video” tag is not supported by your browser. Click [here] to download the video file.
+        </video>
+      </div>
+      <div class="contenedorelementos">
+        <div style.top="{{inputtop}}px" style.left="{{inputleft}}px" class="contenedorelemento">
+          <div  *ngFor="let ele of elementos; let i=index">
+            <div *ngIf="ele.tipo === 'text'" class="elemento"  style.font-size="{{ele.fontsize}}px" style.color="{{ele.color}}" (click)="click(i)" (cdkDragEnded)="drop($event, i)" cdkDrag><p [ngStyle]="{'transform': 'rotate('+ ele.rotate +'deg)'}">{{ele.texto}}</p></div>
+            <div *ngIf="ele.tipo === 'imagen'" class="elemento" (click)="click2(i)" (cdkDragEnded)="drop($event, i)" cdkDrag><ion-img [ngStyle]="{'transform': 'rotate('+ ele.rotate +'deg)'}" style.width="{{ele.width}}px" [src]="ele.url"></ion-img></div>
+          </div>
+        </div>
+      </div>
+
+      <ion-grid fixed class="opciones">
+        <ion-row class="">
+          <ion-col size="2" text-center (click)="elegir(1)"><img class="iconosopciones" src="../../../assets/iconos/texto.png" alt=""></ion-col>
+          <ion-col size="2" text-center (click)="elegir(3)"><img class="iconosopciones" src="../../../assets/iconos/foto.png" alt=""></ion-col>
+          <!-- <ion-col size="2" text-center (click)="elegir(4)"><img class="iconosopciones" src="../../../assets/iconos/film.png" alt=""></ion-col>
+          <ion-col size="2" text-center (click)="elegir(5)"><img class="iconosopciones" src="../../../assets/iconos/paisaje.png" alt=""></ion-col> -->
+          <!-- <ion-col size="2" text-center (click)="elegir(6)"><img class="iconosopciones" src="../../../assets/iconos/diverso.png" alt=""></ion-col> -->
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="creartexto animated fadeInLeft slow1" *ngIf="ver === 1 || ver === 2">
+      <ion-grid fixed>
+      <ion-row>
+      <ion-col size="12">
+        <ion-textarea [ngStyle]="{'transform': 'rotate('+ rotate +'deg)'}" rows="10" autofocus="true" style.font-size="{{tamanoinput}}px" style.color="{{colorinput}}" class="input" type="text" name="texto" [(ngModel)]="texto" placeholder="Empieza a escribir..."></ion-textarea>
+      </ion-col>
+      </ion-row>
+      </ion-grid>
+
+      <ion-grid *ngIf="ver === 1 || ver === 2"  fixed class="opcionestexto">
+        <ion-row>
+          <ion-col size="2"></ion-col>
+          <ion-col size="4" *ngIf="ver === 1">
+          <ion-button (click)="textolisto()" color="light" expand="block" class="ion-padding" shape="round">
+            Listo
+          </ion-button>
+          </ion-col>
+
+          <ion-col size="4" *ngIf="ver === 2">
+            <ion-button (click)="textoeditado()" color="light" expand="block" class="ion-padding" shape="round">
+              Listo
+            </ion-button>
+          </ion-col>
+
+          <ion-col size="4">
+            <ion-button (click)="delete()" color="light" expand="block" class="ion-padding" shape="round">
+              Borrar
+            </ion-button>
+          </ion-col>         
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="piconomas" size="2"><span class="amas">A<ion-icon class="iconmas" name="remove-circle-outline"  color="dark"></ion-icon></span></ion-col>
+          <ion-col size="8">
+            <ion-range class="pt0 range" min="8" max="100" pin color="secondary" [(ngModel)]="tamanoinput" value="{{tamanoinput}}">
+            </ion-range>
+          </ion-col>
+          <ion-col class="piconomas" size="2"><span class="amas"><ion-icon class="iconmas" name="add-circle-outline"  color="dark"></ion-icon>A</span></ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="piconomas" size="2">
+            <ion-img class="iconosrotate" src="../../../assets/iconos/rotatei.png"></ion-img>
+          </ion-col>
+          <ion-col size="8">
+            <ion-range class="pt0 range" min="-180" max="180" pin color="secondary" [(ngModel)]="rotate" value="{{rotate}}">
+            </ion-range>
+          </ion-col>
+          <ion-col class="piconomas" size="2">
+            <ion-img class="iconosrotate" src="../../../assets/iconos/rotated.png"></ion-img>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="2"  color="light"><ion-icon class="icon" name="color-palette"  color="dark"></ion-icon> 
+          </ion-col>
+          <ion-col size="10" color="light">
+            <ion-slides class="pslide" [options]="slideOpts">
+              <ion-slide><ion-avatar style="background:#FF0000" class="listadocoloresavatar" (click)="setColor('#FF0000')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#FF8000" class="listadocoloresavatar" (click)="setColor('#FF8000')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#FFFF00" class="listadocoloresavatar" (click)="setColor('#FFFF00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#80FF00" class="listadocoloresavatar" (click)="setColor('#80FF00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00FF00" class="listadocoloresavatar" (click)="setColor('#00FF00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00FF80" class="listadocoloresavatar" (click)="setColor('#00FF80')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00FFFF" class="listadocoloresavatar" (click)="setColor('#00FFFF')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#0080FF" class="listadocoloresavatar" (click)="setColor('#0080FF')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#0000FF" class="listadocoloresavatar" (click)="setColor('#0000FF')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#7F00FF" class="listadocoloresavatar" (click)="setColor('#7F00FF')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#FF00FF" class="listadocoloresavatar" (click)="setColor('#FF00FF')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#FF007F" class="listadocoloresavatar" (click)="setColor('#FF007F')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#808080" class="listadocoloresavatar" (click)="setColor('#808080')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#CC0000" class="listadocoloresavatar" (clicl)="setColor('#CC0000')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#CC6600" class="listadocoloresavatar" (click)="setColor('#CC6600')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#CCCC00" class="listadocoloresavatar" (click)="setColor('#CCCC00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#66CC00" class="listadocoloresavatar" (click)="setColor('#66CC00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00CC00" class="listadocoloresavatar" (click)="setColor('#00CC00')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00CC66" class="listadocoloresavatar" (click)="setColor('#00CC66')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#00CCCC" class="listadocoloresavatar" (click)="setColor('#00CCCC')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#0066CC" class="listadocoloresavatar" (click)="setColor('#0066CC')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#0000CC" class="listadocoloresavatar" (click)="setColor('#0000CC')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#6600CC" class="listadocoloresavatar" (click)="setColor('#6600CC')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#CC00CC" class="listadocoloresavatar" (click)="setColor('#CC00CC')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#CC0066" class="listadocoloresavatar" (click)="setColor('#CC0066')"></ion-avatar></ion-slide>
+              <ion-slide><ion-avatar style="background:#606060" class="listadocoloresavatar" (click)="setColor('#606060')"></ion-avatar></ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="tomarimagenes animated fadeInLeft slow1" *ngIf="ver === 3">
+
+      <div class="contenedorimagen" style.background-image="url({{filelocal}})">
+      </div>
+      <img class="imagencreando" src="{{filelocal}}" alt="">
+
+
+      <ion-grid fixed class="opcionescamara">
+        <ion-row>
+          <ion-col size="4"></ion-col>
+          <ion-col size="4">
+            <ion-button (click)="imagenlisto()" color="light" expand="block" class="ion-padding" shape="round">
+              Listo
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col  class="ion-text-center ion-padding-top" size="6">
+            <ion-icon (click)="elegirImagen()" class="iconimg" name="images"></ion-icon>
+            <p>Imagén desde galería</p>
+          </ion-col>
+
+          <ion-col  class="ion-text-center ion-padding-top" size="6">
+            <ion-icon (click)="tomarImagen()" class="iconimg" name="camera"></ion-icon>
+            <p>Imagén desde cámara</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="tomarvideos animated fadeInLeft slow1" *ngIf="ver === 4">
+
+      <video *ngIf="ver === 4" #video webkit-playsinline playsinline preload="metadata" [src]="filelocal"></video>
+      <ion-grid fixed class="opcionescamara">
+        <ion-row>
+          <ion-col size="4"></ion-col>
+          <ion-col size="4">
+            <ion-button (click)="imagenlisto()" color="light" expand="block" class="ion-padding" shape="round">
+            Listo
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <!-- <ion-col  class="ion-text-center ion-padding-top" size="6">
+            <ion-icon class="iconimg" name="images"></ion-icon>
+            <p>Video desde galería</p>
+          </ion-col> -->
+          <!-- <ion-col (click)="grabarVideo()" class="ion-text-center ion-padding-top" size="6">
+            <ion-icon class="iconimg" name="camera"></ion-icon>
+            <p>Video desde cámara</p>
+          </ion-col> -->
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="fondos animated fadeInLeft slow1" *ngIf="ver === 5">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col class="fondo" style.background-image="url({{item.url}})" size="4" (click)="setFondo(item.url)" *ngFor="let item of fondos; let i=index" size="4">
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="sticker animated fadeInLeft slow1" *ngIf="ver === 6">
+      <!-- <ion-grid fixed>
+        <ion-row>
+          <ion-col (click)="setGif(item.url)" *ngFor="let item of gifs; let i=index" size="4">avbnvnvnvn</ion-col>
+        </ion-row>
+      </ion-grid> -->
+
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col (click)="seticon(item.url)" *ngFor="let item of iconos; let i=index" size="2"><ion-img [src]="item.url"></ion-img></ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <div class="editarimagen animated fadeInLeft slow1" *ngIf="ver === 7">
+        <ion-img style.width="{{ancho}}px" [ngStyle]="{'transform': 'rotate('+ rotate +'deg)'}" [src]="elementos[elementoaeditar].url"></ion-img>
+      <ion-grid *ngIf="ver === 7"  fixed class="opcionestexto">
+        <ion-row>
+          <ion-col size="2"></ion-col>
+          <ion-col size="4" *ngIf="ver === 7">
+            <ion-button (click)="click2listo()" color="light" expand="block" class="ion-padding" shape="round">
+              Listo
+            </ion-button>
+          </ion-col>
+          <ion-col size="4">
+            <ion-button (click)="delete()" color="light" expand="block" class="ion-padding" shape="round">
+              Borrar
+            </ion-button>
+          </ion-col>         
+        </ion-row>
+
+        <ion-row>
+          <ion-col class="piconomas" size="2"><span class="amas"><ion-icon class="iconmas" name="remove-circle-outline"  color="light"></ion-icon></span></ion-col>
+          <ion-col size="8">
+              <ion-range min="8" max="500" pin color="secondary" [(ngModel)]="ancho" value="{{ancho}}">
+      
+                </ion-range>
+          </ion-col>
+          <ion-col class="piconomas" size="2"><span class="amas"><ion-icon class="iconmas" name="add-circle-outline"  color="light"></ion-icon></span></ion-col>
+        </ion-row>
+
+        <ion-row>
+        <ion-col class="piconomas" size="2"><ion-img class="iconosrotate" src="../../../assets/iconos/rotatei.png"></ion-img></ion-col>
+        <ion-col size="8">
+          <ion-range class="pt0 range" min="-180" max="180" pin color="secondary" [(ngModel)]="rotate" value="{{rotate}}">
+          </ion-range>
+        </ion-col>
+        <ion-col class="piconomas" size="2"><ion-img class="iconosrotate" src="../../../assets/iconos/rotated.png"></ion-img></ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

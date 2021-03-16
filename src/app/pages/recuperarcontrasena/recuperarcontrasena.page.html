@@ -1,0 +1,44 @@
+<ion-content class="ion-no-padding" color="primary2">
+  <div class="main">
+    <ion-card class="card ion-no-margin" color="primary2">
+      <ion-card-content>
+          <ion-row class="row">
+              <div class="fire-logo">
+                  <img src="../../../assets/logo.png" class="img-logo">
+                  <ion-text><h2 class="ion-no-margin ion-margin-vertical" color="light">Recuperar Contraseña</h2></ion-text>
+                </div>
+          </ion-row>
+
+          <form [formGroup]="forgotPasswordForm" (ngSubmit)="recoverPassword()">
+              <p  style="color: white" class="recover-message ion-text-center">
+                  Ingresa tu direccion de correo y te enviaremos una nueva contraseña
+              </p>
+
+          <ion-row>
+              <ion-col>
+                <ion-input clearInput type="email" placeholder="Email" formControlName="email" class="input ion-padding-horizontal" clear-input="true"></ion-input>
+                <div class="validation-errors">
+                  <ng-container *ngFor="let validation of validation_messages.email">
+                    <div class="error-message" *ngIf="forgotPasswordForm.get('email').hasError(validation.type) && (forgotPasswordForm.get('email').dirty || forgotPasswordForm.get('email').touched)">
+                      {{ validation.message }}
+                    </div>
+                  </ng-container>
+                </div>
+              </ion-col>
+            </ion-row>
+            <div class="line"></div>
+            <ion-row>
+                <ion-col>
+                  <ion-button expand="block" type="submit" [disabled]="!forgotPasswordForm.valid" color="btnlogin" class="btn-transition"><strong class="white">Recuperar contraseña</strong></ion-button>
+                  <label class="error-message">{{errorMessage}}</label>
+                </ion-col>
+              </ion-row>
+            <ion-col>
+                <ion-button [routerLink]="[ '/login']" expand="block" fill="outline" color="light" class="btn-color"><strong>Iniciar Sesión</strong></ion-button>
+              </ion-col>
+          </form>
+
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

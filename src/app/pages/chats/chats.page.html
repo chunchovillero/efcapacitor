@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="start" color="light"></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>Chats</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment mode="md" (ionChange)="segmentChanged($event)">
+      <ion-segment-button mode="md" value="Chats" checked>
+        <div class="contentCenter">
+           <ion-text slot=end class="segment_Text">Chats <!--<ion-avatar class="segmentCount"></ion-avatar> -->
+          </ion-text>
+        </div>
+      </ion-segment-button>
+
+      <ion-segment-button mode="md" value="Seguidos">
+        <div class="contentCenter">
+          <ion-text slot=end class="segment_Text">Seguidos</ion-text>
+        </div>
+      </ion-segment-button>
+
+      <ion-segment-button mode="md" value="Seguidores">
+          <div class="contentCenter">
+            <ion-text slot=end class="segment_Text">Seguidores</ion-text>
+          </div>
+        </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+ 
+<ion-content>
+  <ion-list *ngIf="segmentTab == 'Chats' " class="ion-no-padding">
+    <div *ngFor="let chat of chatamostrar">
+      <ion-item *ngIf="usuario.id === chat.creador || usuario.id === chat.participante" [routerLink]="[ '/chat', chat.id ]" >
+        <ion-avatar *ngIf="usuario.id === chat.creador" class="chatImage" slot="start">
+          <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante" src="{{ user.avatar }}"></ion-img>
+        </ion-avatar>
+        <ion-avatar *ngIf="usuario.id === chat.participante" class="chatImage" slot="start">
+            <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador" src="{{ user.avatar }}"></ion-img>
+          </ion-avatar>
+  
+        <ion-label>
+          <div class="withcount">
+            <div class="nameAvatar" *ngIf="usuario.id === chat.creador">
+              <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante">{{user.name}}
+              </h2>
+            </div>
+  
+            <div class="nameAvatar" *ngIf="usuario.id === chat.participante">
+                <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador">{{user.name}}
+                </h2>
+            </div>
+          </div>
+          <p class="widthHalf"><app-ultimomensaje [idchat] = "chat.id" parte = "ultimomensaje"></app-ultimomensaje></p>
+          
+          <p class="widthHalf desdecotizacion" *ngIf="chat.tipo === 'Cotizacion'"> Chat desde cotizacion </p>
+        </ion-label>
+        <div slot="end" class="timeSlot">
+          <div class="timeEnd">
+            <ion-text slot="end" color="success" class="ion-text-uppercase"><app-ultimomensaje [idchat] = "chat.id" parte = "ultimomensajefecha"></app-ultimomensaje></ion-text>
+          </div>
+          <ion-avatar class="chatCount" *ngIf="chat.count">{{chat.count}}</ion-avatar>
+        </div>
+      </ion-item>
+    </div>
+    
+  </ion-list>
+  <ion-list *ngIf="segmentTab == 'Seguidos' " class="ion-no-padding">
+    <ion-list-header color="primary">
+      <ion-label>{{listadoseguidos.length}} Seguidos</ion-label>
+    </ion-list-header>
+    <ion-item (click)="inicarChat(chat.seguido)" *ngFor="let chat of listadoseguidos" >
+      <ion-avatar class="chatImage" slot="start">
+        <img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.seguido" src="{{ user.avatar }}">
+      </ion-avatar>
+      <ion-label>
+        <div class="withcount">
+          <div class="nameAvatar">
+            <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.seguido">{{ user.name }}
+            </h2>
+          </div>
+        </div>
+        <p class="widthHalf">{{chat.call}}</p>
+      </ion-label>
+      <div slot="end" class="timeSlot">
+        <div class="timeEnd">
+
+          <ion-icon class="videocam" name={{chat.video}} expand="icon-only" *ngIf="chat.video" mode="ios">{{chat.count}}</ion-icon>
+          <ion-icon class="videocam" name={{chat.phone}} expand="icon-only" *ngIf="chat.phone" mode="ios">{{chat.count}}</ion-icon>
+
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <ion-list *ngIf="segmentTab == 'Seguidores' " class="ion-no-padding">
+    <ion-list-header color="primary">
+      <ion-label>{{listadoseguidores.length}} Seguidores</ion-label>
+    </ion-list-header>
+    <ion-item (click)="inicarChat(chat.seguidor)" *ngFor="let chat of listadoseguidores" >
+      <ion-avatar class="chatImage" slot="start">
+        <img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.seguidor" src="{{ user.avatar }}">
+      </ion-avatar>
+      <ion-label>
+        <div class="withcount">
+          <div class="nameAvatar">
+            <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.seguidor">{{ user.name }}
+            </h2>
+          </div>
+        </div>
+        <p class="widthHalf">{{chat.call}}</p>
+      </ion-label>
+      <div slot="end" class="timeSlot">
+        <div class="timeEnd">
+
+          <ion-icon class="videocam" name={{chat.video}} expand="icon-only" *ngIf="chat.video" mode="ios">{{chat.count}}</ion-icon>
+          <ion-icon class="videocam" name={{chat.phone}} expand="icon-only" *ngIf="chat.phone" mode="ios">{{chat.count}}</ion-icon>
+
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>  

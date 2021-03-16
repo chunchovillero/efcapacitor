@@ -1,0 +1,29 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+    <ion-title>Me Gusta</ion-title>
+    <ion-buttons slot="end">
+      <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+
+  <ion-list color="dark" lines="none" class="lista">
+      <ion-item color="dark" *ngFor="let item of listadolikes; let i=index">
+        <ion-avatar [routerLink]="[ '/profile', item.iduser ]" slot="start">
+          <img *ngFor="let user of listadousuarios | filtrar: 'id' : item.iduser" src="{{ user.avatar }}">
+        </ion-avatar>
+        <ion-label>
+          <h2 [routerLink]="[ '/profile', item.iduser ]" *ngFor="let user of listadousuarios | filtrar: 'id' : item.iduser">{{user.name}}</h2>
+          <p *ngFor="let user of listadousuarios | filtrar: 'id' : item.iduser">{{user.tipocuenta}}</p>
+        </ion-label>
+        <div *ngIf="item.iduser != iduser">
+        <section slot="end">
+            <ion-button *ngIf="versilosigo(item.iduser) === 1" (click)="dejardeseguir(item.iduser)" expand="block" color="light">Siguiendo</ion-button>
+            <ion-button *ngIf="versilosigo(item.iduser) === 0" (click)="seguir(item.iduser)" expand="block" color="success">Seguir</ion-button>
+          </section>
+        </div>
+      </ion-item>
+    </ion-list>
+</ion-content>

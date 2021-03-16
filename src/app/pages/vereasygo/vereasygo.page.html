@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button menu="start" color="light" class="btn-menu"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
+    <ion-icon slot="end" name="add"></ion-icon>
+    <ion-title [routerLink]="[ '/profile', propietario.uid ]" slot="secondary">
+        {{ propietario.name }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark" class="food-details-content">
+<ion-slides *ngIf="easygo.imagenes.length === 0">
+  <ion-slide >
+    <div class="contenedor-imagenes" style="background-image: url(https://firebasestorage.googleapis.com/v0/b/autosleonapp.appspot.com/o/imagenes%2Funnamed.jpg?alt=media&token=366ac287-4bd3-49de-b108-a1a9a8e784a5)" ></div>
+  </ion-slide>
+</ion-slides>
+
+<ion-slides *ngIf="easygo.imagenes.length > 0">
+  <ion-slide *ngFor="let item of easygo.imagenes; let i=index" >
+    <div (click)="zoom(item.url)" *ngIf="item.tipo === 'image/jpeg'" class="contenedor-imagenes"  [style.background-image]="'url(' + item.url + ')'"></div>
+    <div *ngIf="item.tipo === 'video/mp4'" class="contenedor-imagenes">
+      <video height="400" *ngIf="item.tipo === 'video/mp4'" preload="metadata" webkit-playsinline playsinline src="{{item.url}}#t=0.1" controls></video>
+  </div>
+  </ion-slide>
+</ion-slides>
+
+<ion-grid fixed>
+  <ion-row>
+      <ion-col size="1">
+        <ion-avatar>
+          <img *ngFor="let user of listadousuarios | filtrar: 'id' : easygo.uid" [src]="user.avatar" [routerLink]="[ '/perfil', easygo.uid ]" />
+        </ion-avatar>
+      </ion-col>
+      <ion-col size="1">
+      </ion-col>
+      <ion-col size="8" class="ion-padding-start">
+        <h5>Usuario:</h5> 
+        <p [routerLink]="[ '/profile', easygo.uid ]" *ngFor="let user of listadousuarios | filtrar: 'id' : easygo.uid" class="ion-no-padding" class="direccion">{{ user.name }}</p>
+      </ion-col>  
+      
+      <ion-col size="2" *ngIf="easygo.uid === usuario.id">
+        <ion-icon [routerLink] = "['/editareasygo', easygoid]" name="create-outline"></ion-icon>
+        <ion-icon (click)="eliminareasygo()" name="trash-outline"></ion-icon>
+      </ion-col>
+
+      <ion-col size="2" *ngIf="easygo.uid != usuario.id">
+       
+      </ion-col>
+      
+      <ion-col size="1"><ion-icon name="create"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Descripción: <span class="ion-no-padding" class="direccion">{{ easygo.descripcion }}</span></h5></ion-col>      
+        
+      <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Dirección del EasyGo: <span class="ion-no-padding" class="direccion">{{ easygo.direccion }}</span></h5></ion-col>      
+
+      <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Tu Direccion: <span *ngIf="geoAddress === ''" class="ion-no-padding" class="direccion">Obteniendo tu dirección...</span> <span class="ion-no-padding" class="direccion">{{ geoAddress }}</span></h5></ion-col>      
+
+
+      <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Estas a <span *ngIf="distancia === ''" class="ion-no-padding" class="direccion">Obteniendo tu Dirección...</span> <span class="ion-no-padding" class="direccion">{{ distancia }} km(s) de distancia</span></h5></ion-col>      
+
+      <ion-col size="1"><ion-icon name="alert"></ion-icon></ion-col>
+      <ion-col size="11" *ngIf="easygo.estado === 'abierta'" class="ion-padding-start"> <h5>Estado: <span class="ion-no-padding" class="direccion abierta">Abierta</span></h5></ion-col>
+      <ion-col size="11" *ngIf="easygo.estado === 'cerrada'" class="ion-padding-start"> <h5>Estado: <span class="ion-no-padding" class="direccion cerrada">Cerrada</span></h5></ion-col>
+      
+      <ion-col size="2"></ion-col>
+      <ion-col size="8" class="ion-padding-start">
+        <ion-button [routerLink]="['/iraeasygo', easygoid]" expand="block" fill="clear" shape="round">
+        Navegar al EasyGo
+        </ion-button>
+      </ion-col>
+      <ion-col size="2"></ion-col> 
+  </ion-row>
+</ion-grid>

@@ -1,0 +1,130 @@
+<ion-header>
+    <ion-toolbar color="primary">
+      <ion-buttons slot="start">
+        <ion-menu-button autoHide="false" class="btn-menu"></ion-menu-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+        <ion-back-button text="" icon="arrow-back-outline"></ion-back-button>
+      </ion-buttons>
+      <ion-title [routerLink]="[ '/perfil', propietario.uid ]" slot="secondary">
+          {{ propietario.name }}
+      </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark" class="food-details-content">
+  <ion-slides *ngIf="cotizacion.imagenes.length === 0">
+    <ion-slide >
+      <div class="contenedor-imagenes" style="background-image: url(../../../assets/car.jpg)" ></div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-slides *ngIf="cotizacion.imagenes.length > 0">
+    <ion-slide *ngFor="let item of cotizacion.imagenes; let i=index" >
+      <div (click)="zoom(item.url)" *ngIf="item.tipo === 'image/jpeg'" class="contenedor-imagenes"  [style.background-image]="'url(' + item.url + ')'"></div>
+      <div *ngIf="item.tipo === 'video/mp4'" class="contenedor-imagenes">
+        <video height="400" *ngIf="item.tipo === 'video/mp4'" preload="metadata" webkit-playsinline playsinline src="{{item.url}}#t=0.1" controls></video>
+    </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-grid fixed>
+    <ion-row>
+        <ion-col size="1"><ion-avatar>
+          <img *ngFor="let user of listadousuarios | filtrar: 'id' : cotizacion.uid" [src]="user.avatar" [routerLink]="[ '/perfil', cotizacion.uid ]" />
+        </ion-avatar></ion-col>
+        <ion-col size="11" class="ion-padding-start">
+          <h5>Usuario:</h5> 
+          <p [routerLink]="[ '/perfil', cotizacion.uid ]" *ngFor="let user of listadousuarios | filtrar: 'id' : cotizacion.uid" class="ion-no-padding" class="direccion">{{ user.name }}</p>
+        </ion-col>      
+        
+        <ion-col size="1"><ion-icon name="settings"></ion-icon></ion-col>
+        <ion-col size="11" class="ion-padding-start"> <h5>Categoria: <span class="ion-no-padding" class="direccion">{{ cotizacion.categorianombre }}</span></h5></ion-col>      
+        
+        <ion-col size="1"><ion-icon name="create"></ion-icon></ion-col>
+        <ion-col size="11" class="ion-padding-start"> <h5>Descripción: <span class="ion-no-padding" class="direccion">{{ cotizacion.descripcion }}</span></h5></ion-col>      
+          
+        <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+        <ion-col size="11" class="ion-padding-start"> <h5>Dirección: <span class="ion-no-padding" class="direccion">{{ cotizacion.direccion }}</span></h5></ion-col>      
+        
+        <ion-col size="1"><ion-icon name="alert"></ion-icon></ion-col>
+        <ion-col size="11" *ngIf="cotizacion.estado === 'abierta'" class="ion-padding-start"> <h5>Estado: <span class="ion-no-padding" class="direccion abierta">Abierta</span></h5></ion-col>
+        <ion-col size="11" *ngIf="cotizacion.estado === 'cerrada'" class="ion-padding-start"> <h5>Estado: <span class="ion-no-padding" class="direccion cerrada">Cerrada</span></h5></ion-col>      
+          
+    </ion-row>
+  </ion-grid>
+  <div *ngIf="cotizacion.estado === 'abierta'">
+    <div *ngIf="usuario.tipocuenta === 'Taller'">
+      <div *ngIf="consultarchat.length === 0">
+        <ion-input [(ngModel)]="respuesta" class="input" autofocus="true" placeholder="Ingresa tu respuesta a esta solicitud"></ion-input>
+        <ion-toolbar color="dark">
+            <ion-button color="botones"  (click)="crearChat()" expand="full">Enviar mensaje</ion-button>
+        </ion-toolbar>
+      </div>
+  
+      <div  color="primary" *ngIf="consultarchat.length > 0">
+        <ion-text >
+          <h3>Ya estas en contacto con este usuario</h3>
+        </ion-text>
+        <ion-toolbar color="dark">
+            <ion-button color="botones" [routerLink]="['/chat', consultarchat[0].id]" expand="full">Ver chat</ion-button>
+        </ion-toolbar>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="cotizacion.estado === 'cerrada'">
+    <div *ngIf="usuario.tipocuenta === 'Taller'">
+      <div *ngIf="cotizacion.elegido === usuario.id">
+        <ion-text >
+          <h3>Has sido elegido para esta cotizacion</h3>
+        </ion-text>
+        <ion-toolbar color="dark">
+            <ion-button color="botones" [routerLink]="['/chat', consultarchat[0].id]" expand="full">Ver chat</ion-button>
+        </ion-toolbar>
+      </div>
+    </div>
+  </div>
+  
+
+  <ion-item class="separacion" color="primary">    
+  </ion-item>
+
+  <div color="dark" *ngIf="cotizacion.uid === usuario.id " class="padding list">
+    <h1 class="ion-padding-start">Contactos</h1>
+    <ion-card *ngFor="let chat of listadochats"  [routerLink]="[ '/chat', chat.id ]" class="cardSection ion-margin">
+      <ion-card-content>
+        <ion-item class="solicitudes">
+          <ion-avatar *ngIf="usuario.id === chat.creador" class="chatImage" slot="start">
+            <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante" src="{{ user.avatar }}"></ion-img>
+          </ion-avatar>
+          <ion-avatar *ngIf="usuario.id === chat.participante" class="chatImage" slot="start">
+              <ion-img *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador" src="{{ user.avatar }}"></ion-img>
+            </ion-avatar>
+  
+          <ion-label>
+            <div class="withcount">
+              <div class="nameAvatar" *ngIf="usuario.id === chat.creador">
+                <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.participante">{{user.name}}
+                </h2>
+              </div>
+  
+              <div class="nameAvatar" *ngIf="usuario.id === chat.participante">
+                  <h2 color="light" *ngFor="let user of listadousuarios | filtrar: 'id' : chat.creador">{{user.name}}
+                  </h2>
+              </div>
+            </div>
+            <p class="widthHalf"><app-ultimomensaje [idchat] = "chat.id" parte = "ultimomensaje"></app-ultimomensaje></p>
+          </ion-label>
+          <div slot="end" class="timeSlot">
+            <div class="timeEnd">
+              <ion-text slot="end" color="success" class="ion-text-uppercase"><app-ultimomensaje [idchat] = "chat.id" parte = "ultimomensajefecha"></app-ultimomensaje></ion-text>
+            </div>
+            <ion-avatar class="chatCount" *ngIf="chat.count">{{chat.count}}</ion-avatar>
+          </div>
+        </ion-item>
+        </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

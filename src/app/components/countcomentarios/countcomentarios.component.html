@@ -1,0 +1,18 @@
+<div *ngIf="listadocomentarios.length === 0">
+   <ion-text  class="likes">
+      No hay comentarios
+   </ion-text> 
+</div>
+
+<div *ngIf="listadocomentarios.length === 1">
+    <ion-text  class="likes">
+        1 Comentario
+     </ion-text> 
+</div>
+
+<div *ngIf="listadocomentarios.length > 1">
+    <ion-text  class="likes">
+        {{ listadocomentarios.length }} Comentarios
+     </ion-text> 
+    
+</div>

@@ -1,0 +1,97 @@
+<ion-header color="primary">
+  <ion-toolbar color="primary">
+      <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Nueva solicitud</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="1"><ion-icon name="construct"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Categoria: <span class="ion-no-padding" class="direccion">{{ categorianombre }}</span></h5></ion-col>
+
+      <ion-col size="1"><ion-icon name="car"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start"> <h5>Auto: <span class="ion-no-padding" class="direccion">{{ auto.marca }} {{ auto.modelo }}</span></h5></ion-col>
+
+      <ion-col size="1"><ion-icon name="pin"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Tu ubicación: <span class="ion-no-padding" class="direccion">{{ geoAddress }}</span></h5>
+        
+      </ion-col>
+      <ion-col size="12">
+          <p class="ion-no-padding info">Si deseas cambiar la ubicación ingresa una nueva dirección<p>
+          <p class="ion-no-padding"><ion-input placeholder="Ingresa una nueva dirección" class="input" id="txtHome" (keyup)="cambio()"  [(ngModel)]="search" type="text"></ion-input><p>
+      </ion-col>
+
+      <ion-col size="1" class="ion-padding-top"><ion-icon name="create"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start ion-padding-top"><h5>Descripción del servicio</h5></ion-col>
+      <ion-col size="12"><ion-textarea [(ngModel)]="descripcion" name="descripcion" class="textarea" autofocus="true" placeholder="Escribe en detalle que necesitas"></ion-textarea></ion-col>
+
+      <ion-col size="1"><ion-icon name="disc"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Rango de distancia: <span class="direccion">{{rango}} kms.</span></h5>
+        <p class="on-no-padding info">
+          El rango es la distancia entre tu ubicación y los talleres a los que quieres que les lleguen las notificaciones, por defecto es 1 km, pero puedes aumentarlo a continuación.
+        </p>
+      </ion-col>
+      <ion-col size="12">
+          <ion-range [(ngModel)]="rango" min="1" max="50" snaps="true" ticks="false" pin color="light">
+              <ion-label slot="start">1</ion-label>
+              <ion-label slot="end">50</ion-label>
+            </ion-range>
+      </ion-col>
+
+      <ion-col size="1"><ion-icon name="images"></ion-icon></ion-col>
+      <ion-col size="11" class="ion-padding-start">
+        <h5>Fotos del trabajo:</h5>
+        <p class="ion-no-padding" class="info">
+          Puedes tomar fotos o subir imágenes de tu galería. Esto ayudara a los profesionales a entender que necesitas.
+        </p>
+      </ion-col>
+
+      <ion-col size="4" *ngFor="let item of media; let i=index">
+        <ion-img *ngIf="item.tipo == 'image/jpeg'" [src]="item.base64"></ion-img>
+
+        <video *ngIf="item.tipo == 'video/mp4'" autoplay controls [src]="item.base64" controls>
+            The “video” tag is not supported by your browser. Click [here] to download the video file.
+          </video>
+
+        <ion-icon (click)="deleteimg(i)" class="trash" name="trash"></ion-icon>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col class="ion-text-center ion-padding-top" size="2">
+        
+      </ion-col>
+      <ion-col (click)="elegirImagen()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="images"></ion-icon>
+        <p>Imagén desde galería</p>
+      </ion-col>
+
+      <ion-col (click)="tomarImagen()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="camera"></ion-icon>
+        <p>Imagén desde cámara</p>
+      </ion-col>
+
+      <ion-col class="ion-text-center ion-padding-top" size="2">
+        
+      </ion-col>
+
+      <!-- <ion-col (click)="grabarVideo()" class="ion-text-center ion-padding-top" size="4">
+        <ion-icon class="iconimg" name="videocam"></ion-icon>
+        <p>Video desde cámara  </p>
+      </ion-col> -->
+
+    </ion-row>
+
+    <ion-row>
+      <ion-toolbar color="dark">
+        <ion-button (click)="subir()" class="ion-padding" color="botones" expand="block">Enviar Solicitud</ion-button>
+    </ion-toolbar>
+    </ion-row>
+  </ion-grid>
+</ion-content>

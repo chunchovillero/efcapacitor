@@ -1,0 +1,13 @@
+<ion-item color="dark" *ngIf="listadorespuestas.length > 1" >
+    <p> Ver las {{listadorespuestas.length}} respuestas </p>
+</ion-item>
+
+<ion-item color="dark" *ngIf="listadorespuestas.length > 0">
+    <ion-avatar class="avatar-top" slot="start">
+        <img *ngFor="let user of listadousuarios | filtrar: 'id' : listadorespuestas[0].iduser" src="{{ user.avatar }}">
+    </ion-avatar>
+    <ion-label class="mt0 coment">
+      <span class="titulo" *ngFor="let user of listadousuarios | filtrar: 'id' : listadorespuestas[0].iduser">{{user.name}}</span> 
+      <span>{{listadorespuestas[0].comentario}}</span>
+    </ion-label>
+</ion-item>

@@ -1,0 +1,173 @@
+@keyframes slideTime {
+    0% {
+        max-width: 0;
+    }
+
+    100% {
+        max-width: 100%;
+    }
+}
+
+.slide {
+    height: 100%;
+    width: 100%;
+    background: orange;
+}
+
+.contenedor {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    background: black;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+}
+
+.spinner {
+    color: white;
+    text-align: center;
+    transform: scale(3);
+}
+
+.header {
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    z-index: 1000;
+    top: 10px;
+} 
+
+.avatar {
+    height: 40px;
+    width: 40px;
+}
+
+ion-spinner {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: auto;
+}
+
+video {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+}
+
+.contenedorimagen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+    background-size: cover;
+    filter: blur(3px);
+    z-index: 9;
+}
+
+.contenedorfondo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+    background-size: cover;
+    z-index: 9;
+}
+
+.imagen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+    background-size: cover;
+    z-index: 10;
+}
+
+.elemento {
+    position: absolute;
+    font-family: 'Roboto Condensed';
+    line-height: 1;
+    text-align: center;
+    animation-duration: 3s;
+    animation-name: slidein;
+    animation-iteration-count: infinite;
+    z-index: 11;
+    
+}
+
+.pagination {
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    z-index: 1001;
+    width: 100%;
+
+    ion-col {
+        height: 3px;
+        background-color: #999;
+        border-radius: 6px;
+        padding: 0px;
+        margin: 0px 3px 0px 3px;
+
+        .progress, .seen {
+            height: 100%;
+            background-color: #000;
+        }
+
+        .progress {
+            animation-name: slideTime;
+            animation-timing-function: linear;
+            animation-play-state: running;
+            animation-duration: 10s;
+        }
+    }
+}
+
+.avatar{
+    text-align: left;
+}
+
+.username {
+    text-shadow: 2px 2px #020000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 17px;
+    text-align: left;
+}
+
+.hora {
+    text-shadow: 2px 2px #020000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 12px;
+    text-align: left;
+}
+
+p {
+    margin: 0 0 0px !important;
+}
